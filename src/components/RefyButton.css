@@ -1,0 +1,12 @@
+.RefyButton {
+    border-color: #ADE8FF;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.RefyButton-text{
+    color: black;
+    text-decoration: none;
+}
