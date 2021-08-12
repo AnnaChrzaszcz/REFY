@@ -4,9 +4,9 @@ import React, {useState, useEffect} from 'react';
     const initialPartyState = {
         ownerId: '',
         name: 'initial name',
-        channels: [{name: 'channel1', number: 0, color: '#9cffb6', playlistURL: '', activeListeners: []},
-            {name: 'channel2', number: 1, color: '#ffb59c', playlistURL: '', activeListeners: []},
-            {name: 'channel3', number: 2, color: '#9cc0ff', playlistURL: '', activeListeners: []}],
+        channels: [{name: 'channel1', number: 0, color: '#9cffb6', playlistURL: '', activeListeners: [], startTime: ''},
+            {name: 'channel2', number: 1, color: '#ffb59c', playlistURL: '', activeListeners: [], startTime: ''},
+            {name: 'channel3', number: 2, color: '#9cc0ff', playlistURL: '', activeListeners: [], startTime: ''}],
         startTime: null,
         endTime: null,
         coord: null,
