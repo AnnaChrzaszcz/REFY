@@ -58,7 +58,21 @@ export const addNewListener = async (_idParty, channelNumber) => {
     try{
         let user = await getUser();
         let spotifyId = user.spotifyId;
+        console.log('add new listener',spotifyId, _idParty, channelNumber);
         const response = await instance.post('party/channel/addNewListener', {_idParty, spotifyId, channelNumber});
+        return response.data;
+    }
+    catch(err) {
+        console.log(err);
+    }
+};
+
+export const removeListener = async (_idParty, channelNumber) => {
+    try{
+        let user = await getUser();
+        let spotifyId = user.spotifyId;
+        console.log('remove listemer',spotifyId ,_idParty, channelNumber);
+        const response = await instance.post('party/channel/removeListener', {_idParty, spotifyId, channelNumber});
         return response.data;
     }
     catch(err) {

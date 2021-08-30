@@ -4,10 +4,15 @@ import './index.css';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.css';
 import reportWebVitals from './reportWebVitals';
+import {
+    BrowserRouter as Router,
+} from "react-router-dom"; //TODO nie dzialaja te gowna
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <Router>
+          <App />
+      </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

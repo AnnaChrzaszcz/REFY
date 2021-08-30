@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux'
 
 import newPartyReducer from './PartyReducer'
+import removeListenerReducer from './RemoveListenerReducer'
 
 const rootReducer = combineReducers({
-    // Define a top-level state field named `todos`, handled by `todosReducer`
     newParty: newPartyReducer,
+    removeListener: removeListenerReducer
 })
 
 

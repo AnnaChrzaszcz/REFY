@@ -1,12 +1,11 @@
-import React, {useState, useEffect} from 'react';
-
+import React from 'react';
 
     const initialPartyState = {
         ownerId: '',
         name: 'initial name',
-        channels: [{name: 'channel1', number: 0, color: '#9cffb6', playlistURL: '', activeListeners: [], startTime: ''},
-            {name: 'channel2', number: 1, color: '#ffb59c', playlistURL: '', activeListeners: [], startTime: ''},
-            {name: 'channel3', number: 2, color: '#9cc0ff', playlistURL: '', activeListeners: [], startTime: ''}],
+        channels: [{name: 'channel1', number: 0, color: '#9cffb6', playlistURL: '', activeListeners: [], startTime: null},
+            {name: 'channel2', number: 1, color: '#ffb59c', playlistURL: '', activeListeners: [], startTime: null},
+            {name: 'channel3', number: 2, color: '#9cc0ff', playlistURL: '', activeListeners: [], startTime: null}],
         startTime: null,
         endTime: null,
         coord: null,

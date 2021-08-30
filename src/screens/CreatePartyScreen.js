@@ -12,20 +12,16 @@ const CreatePartyScreen = () => {
     const [updatedChannel, setUpdatedChannel] = useState({})
     const [partyName, setPartyName] = useState(store.getState().newParty.name);
 
-    const unsubscribe = store.subscribe(() =>
-        console.log('State after dispatch: ', store.getState())
-    )
 
     useEffect(() => {
         if(location.state){
-            console.log('locstion state mordy')
+            console.log('location state mordy')
             setUpdatedChannel(location.state);
             updateChannels(location.state);
         }
         getUser().then(user => {
             setUser(user);
             store.dispatch({ type: 'party/setOwnerId', payload: user._id });
-           /* setParty({...party, ownerId: user._id})*/
         })
     }, []);
 
@@ -40,7 +36,6 @@ const CreatePartyScreen = () => {
             }
         })
         store.dispatch({ type: 'party/setChannels', payload: newChannels });
-        //setParty({...party, channels: newChannels})
         console.log(newChannels);
     }
 

@@ -1,12 +1,12 @@
 import './App.css';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
-    useHistory,
     useLocation
-} from "react-router-dom"; //TODO nie dzialaja te gowna
+} from "react-router-dom";
+import {removeListener} from "./api/refy";
+import store from "./reducers/Store";
 
 import WelcomeScreen from "./screens/WelcomeScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -18,12 +18,35 @@ import ChannelDetailsScreen from "./screens/ChannelDetailsScreen";
 import CreatePartyScreen from "./screens/CreatePartyScreen";
 import CreateChannelScreen from "./screens/CreateChannelScreen";
 import MyPartiesScreen from "./screens/MyPartiesScreen";
-import root from "./root";
 
 function App() {
 
+  const location = useLocation();
+  const [removelistenerFlag, setRemovelistenerFlag] = useState(false);
+
+  useEffect(() => {
+      setRemovelistenerFlag(false);
+      const previousURL = store.getState().removeListener.previousURL;
+    if(location.pathname === '/dashboard/nearbyParties/partyDetails/channelDetails'){
+        store.dispatch({ type: 'removeListener/setChannelNumber', payload: location.state.number });
+    }
+    if(previousURL === '/dashboard/nearbyParties/partyDetails/channelDetails'){
+        store.dispatch({ type: 'removeListener/setIdParty', payload: location.state._id });
+        setRemovelistenerFlag(true);
+    }
+      store.dispatch({ type: 'removeListener/setPreviousURL', payload: location.pathname});
+  }, [location])
+
+    useEffect(() => {
+        if(removelistenerFlag){
+            removeListener(store.getState().removeListener._idParty, store.getState().removeListener.channelNumber).then(party => {
+                console.log(party);
+            });
+        }
+    }, [removelistenerFlag])
+
+
   return (
-    <Router history={root}>
       <Switch>
         <Route exact path="/">
           <WelcomeScreen />
@@ -59,7 +82,6 @@ function App() {
           <PlayerScreen />
         </Route>
       </Switch>
-    </Router>
   );
 }
 

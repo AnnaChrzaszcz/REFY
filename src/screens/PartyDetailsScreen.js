@@ -9,13 +9,10 @@ const PartyDetailsScreen = () => {
     const [party, setParty] = useState({});
 
     useEffect(() => {
-        console.log(location);
         if(location.state){
-            console.log('locstion state mordy')
             setParty(location.state);
         }
         else{
-            console.log('else')
             if(store.getState().newParty){
                 setParty(store.getState().newParty);
             }
