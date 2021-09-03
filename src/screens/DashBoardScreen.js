@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {getToken, getUserInfo} from "../api/spotify";
 import {createUser as createRefyUser, storeUser} from "../api/refy";
+import '../styles/Dashboard.css';
+import DashboardButtons from "../components/DashboardButtons";
 
 const DashboardScreen = () => {
 
@@ -25,21 +27,26 @@ const DashboardScreen = () => {
     }
 
     return (
-        <div className='app'>
-           <h1>Dashboard screen</h1>
-            <Link to='dashboard/nearbyParties'>
-            <button>Nearby Parties</button>
-            </Link>
-            <br/>
-            <Link to='dashboard/createParty'>
-            <button>Create Party</button>
-            </Link>
-            <br/>
-            <Link to='dashboard/myParties'>
-            <button>My Parties</button>
-            </Link>
+        <div className='dashboard-Screen'>
+            <div className='animation-dashboard' >
+            </div>
+            <div className='menu-container'>
+                <Link style={{ textDecoration: 'none' }} to='dashboard/nearbyParties'>
+                    <DashboardButtons buttonText='Nearby Parties' iconName='music'/>
+                </Link>
+                <br/>
+                <Link style={{ textDecoration: 'none' }} to='dashboard/createParty'>
+                    <DashboardButtons buttonText='Create Party' iconName='create'/>
+                </Link>
+                <br/>
+                <Link style={{ textDecoration: 'none' }} to='dashboard/myParties'>
+                    <DashboardButtons buttonText='My Parties' iconName='heart'/>
+                </Link>
+            </div>
         </div>
     );
 }
+
+//<h1 style={{color: "white"}}>Dashboard</h1>
 
 export default DashboardScreen;

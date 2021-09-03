@@ -10,7 +10,6 @@ import store from "./reducers/Store";
 
 import WelcomeScreen from "./screens/WelcomeScreen";
 import LoginScreen from "./screens/LoginScreen";
-import PlayerScreen from "./screens/PlayerScreen";
 import DashboardScreen from "./screens/DashBoardScreen";
 import NearbyPartiesScreen from "./screens/NearbyPartiesScreen";
 import PartyDetailsScreen from "./screens/PartyDetailsScreen";
@@ -23,14 +22,15 @@ function App() {
 
   const location = useLocation();
   const [removelistenerFlag, setRemovelistenerFlag] = useState(false);
+  const channelDetailsPath = '/dashboard/nearbyParties/partyDetails/channelDetails';
 
   useEffect(() => {
       setRemovelistenerFlag(false);
       const previousURL = store.getState().removeListener.previousURL;
-    if(location.pathname === '/dashboard/nearbyParties/partyDetails/channelDetails'){
+    if(location.pathname === channelDetailsPath){
         store.dispatch({ type: 'removeListener/setChannelNumber', payload: location.state.number });
     }
-    if(previousURL === '/dashboard/nearbyParties/partyDetails/channelDetails'){
+    if(previousURL === channelDetailsPath){
         store.dispatch({ type: 'removeListener/setIdParty', payload: location.state._id });
         setRemovelistenerFlag(true);
     }
@@ -77,9 +77,6 @@ function App() {
         </Route>
         <Route exact path="/dashboard/myParties">
           <MyPartiesScreen />
-        </Route>
-        <Route exact path="/player">
-          <PlayerScreen />
         </Route>
       </Switch>
   );

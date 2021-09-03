@@ -1,21 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import { SpotifyAuth, Scopes } from 'react-spotify-auth'
 import { Redirect } from "react-router-dom";
-import { SpotifyApiContext} from 'react-spotify-api'
 import Cookies from 'js-cookie'
-import SpotifyPlayer from 'react-spotify-web-playback';
 import 'react-spotify-auth/dist/index.css' // if using the included styles
 import {getUserInfo, getPlaylists} from "../api/spotify";
 import {createUser as createRefyUser, storeUser} from "../api/refy";
-import {BrowserRouter as Router, Link, Route} from "react-router-dom";
-
+import '../components/RefyButton.css';
+import login from "../assets/animations/loginScreen.gif";
+import useWindowDimensions from "../functions/useWindowDimensions";
 
 const LoginScreen = () => {
     const token = Cookies.get('spotifyAuthToken');
-    //const token = localStorage.getItem('spotifyAuthToken');
     const [playlists, setPlaylists] = useState([]);
     const [user, setUser] = useState(null);
     const [selectedPlaylist, setSelectedPlaylist] = useState('spotify:playlist:12vwfmvhakMSJ7biuCwc0w');
+    const { height, width } = useWindowDimensions();
 
 
     const selectPlaylist = (playlist) => {
@@ -66,31 +65,13 @@ const LoginScreen = () => {
     }
 
     return (
-        <div className='app'>
+        <div className='loginScreen'>
+            <div className='animation' />
             {getAccessToken() ? (
                 <Redirect to="/dashboard" />
-                // <SpotifyApiContext.Provider value={token}>
-                //     <button onClick={createUser}>get user info</button>
-                //     <br/>
-                //     <Link to='/dashboard'>
-                //     <button>go to dashboard</button>
-                //     </Link>
-                //     <br/>
-                //     {user ? user : null}
-                //     <br/>
-                //     <button onClick={showPlaylists}>get user playlists</button>
-                //     <ul>
-                //         {playlistItems}
-                //     </ul>
-                //     <p>You are authorized with Spotify</p>
-                //     <p>From cookie spotifyAuthToken:  {token}</p>
-                //     <SpotifyPlayer
-                //         token={token}
-                //         uris={[`${selectedPlaylist}`]}
-                //     />
-                // </SpotifyApiContext.Provider>
             ) : (
                 <SpotifyAuth
+                    className='loginButton'
                     redirectUri='http://localhost:3000/login'
                     title="Login with Spotify"
                     //onAccessToken={(token) => Cookies.set('spotify-token', token)}
@@ -105,5 +86,7 @@ const LoginScreen = () => {
         </div>
     );
 }
+
+//            <img style={{height: height*0.7, display: 'block', marginLeft: 'auto', marginRight: 'auto', width: '100%'}} src={login} alt="animation" />
 
 export default LoginScreen;

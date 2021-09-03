@@ -28,7 +28,7 @@ const PartyDetailsScreen = () => {
     return (
         <div className='app'>
             <h1>PartyDetailsScreen</h1>
-            <p>PARTY NAME: {party.name}</p>
+            <p style={{color: 'white'}}>PARTY NAME: {party.name}</p>
             {party.channels &&
             <ul>
                 {channelItemComponent}
