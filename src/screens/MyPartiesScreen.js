@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {getUser, getUserParties} from "../api/refy";
+import PartyPreview from "../components/PartyPreview";
+import '../styles/MyParties.css';
+import Header from "../components/Header";
 
 const MyPartiesScreen = () => {
 
@@ -17,21 +20,20 @@ const MyPartiesScreen = () => {
         })
     }, []);
 
-    const partiesItems = userParties.map((party) =>
-        <li key={party._id}>
-            <Link to={{pathname: '/dashboard/nearbyParties/partyDetails', state: party}}>
-                <button>{party.name}</button>
+    const partiesItems = userParties.map((party, index) =>
+            <Link key={party._id} style={{ textDecoration: 'none' }} to={{pathname: '/dashboard/nearbyParties/partyDetails', state: party}}>
+                <PartyPreview channels={party.channels} buttonText={party.name} index={index}/>
             </Link>
-        </li>
     );
 
     return (
-        <div className='app'>
-            <h1>My Parties Screen</h1>
-            <p>{user.spotifyId}</p>
-            <ul>
-                {partiesItems}
-            </ul>
+        <div className='myParties-Screen'>
+            <div className='animation-NearbyParties'>
+                <Header headerText="My Parties"/>
+                <div className='partiesContainer' >
+                    {partiesItems}
+                </div>
+            </div>
         </div>
     );
 }

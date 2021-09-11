@@ -1,12 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import {Link, useLocation} from "react-router-dom";
+import '../styles/PartyDetails.css';
 import store from "../reducers/Store";
 import Channel from "../components/Channel";
+import {FiArrowLeft} from "react-icons/fi";
+import { useHistory } from "react-router-dom";
 
 const PartyDetailsScreen = () => {
 
     let location = useLocation();
     const [party, setParty] = useState({});
+    const history = useHistory();
 
     useEffect(() => {
         if(location.state){
@@ -19,20 +23,30 @@ const PartyDetailsScreen = () => {
         }
     }, [])
 
+    const goBack = () => {
+        history.goBack();
+    }
+
     const channelItemComponent = party?.channels?.map((channel) =>
-        <li key={channel.number}>
+        <div key={channel.number}>
             <Channel channel={channel} partyId={party._id}/>
-        </li>
+        </div>
     );
 
     return (
-        <div className='app'>
-            <h1>PartyDetailsScreen</h1>
-            <p style={{color: 'white'}}>PARTY NAME: {party.name}</p>
+        <div className='partyDetailsScreen'>
+            <div className='header-partyDetails'>
+                <FiArrowLeft onClick={goBack}  color='white' size='10%' style={{margin: '8% 0'}}/>
+                <br/>
+                <text style={{color: 'white', fontSize: '5vh'}}>{party.name}</text>
+                <br/>
+                <br/>
+                <text style={{color: 'white', fontSize: '4vh'}}>Channels</text>
+            </div>
             {party.channels &&
-            <ul>
+            <div className='channel-container'>
                 {channelItemComponent}
-            </ul>
+            </div>
             }
         </div>
     );

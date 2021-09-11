@@ -1,0 +1,24 @@
+.createChannelScreen{
+    margin: 10px;
+    height: 96vh;
+}
+
+.createChannel-container{
+    top: 18%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    bottom: 0;
+    position: absolute;
+    width: 94%;
+}
+
+.playlistContainer{
+    overflow-y: scroll;
+    height: 42vh;
+    margin: 0 4%;
+}
+
+.createChannel-container input:focus {
+    outline: none;
+}

@@ -1,0 +1,26 @@
+.createParty-Screen{
+    margin: 0 3%;
+    height: 96vh;
+}
+
+.createParty-container{
+    top: 18%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    bottom: 0;
+    position: absolute;
+    width: 94%;
+}
+
+.channel-container-createParty{
+    overflow-x: scroll;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.createParty-container input:focus {
+    outline: none;
+}
+

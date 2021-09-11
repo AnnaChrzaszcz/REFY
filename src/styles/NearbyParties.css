@@ -1,36 +1,23 @@
 .nearbyParties-Screen{
-    margin: 10px;
+    margin: 0 3%;
     height: 96vh;
 }
 
-.nearbyParties{
-    height: 80%;
-    overflow-y: scroll;
-    top: 100px;
+.partiesContainer{
+    top: 18%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     bottom: 0;
     position: absolute;
     width: 94%;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .x{
    font-weight: 200;
 }
-
-.partyPreview{
-    border-width: 1px;
-    border-radius: 6px;
-    border-color: white;
-    border-style: groove;
-    margin: 3% 3%;
-    display: flex;
-    flex-direction: column;
-    padding: 8% 4%;
-    background-color: rgba(0, 119, 133, 0.91);
-}
-
 
 .header{
     position: fixed;
@@ -45,9 +32,14 @@
 .animation-NearbyParties{
     background-image: url("../assets/animations/nearbyParties.gif");
     background-position: center;
-    width: 95%;
-    height: 95vh;
-    position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
     top: 0
+}
+
+@keyframes example {
+    0%   {right: -100%}
+    100% {right: 0}
 }
 

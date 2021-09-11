@@ -1,9 +1,9 @@
 import React from 'react';
 import './RefyButton.css';
 
-export const RefyButton = ({text, onSubmit, disabled}) => {
+export const RefyButton = ({text, onSubmit, disabled, id}) => {
     return (
-       <div className='RefyButton' onClick={onSubmit}>
+       <div id={id} className='RefyButton' onClick={onSubmit}>
            <text className='RefyButton-text'>{text}</text>
        </div>
     );

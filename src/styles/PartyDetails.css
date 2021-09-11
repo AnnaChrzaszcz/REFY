@@ -1,0 +1,15 @@
+.partyDetailsScreen{
+    margin: 10px;
+    height: 96vh;
+}
+
+.header-partyDetails{
+    padding: 2% 3%;
+}
+
+.channel-container{
+    overflow-x: scroll;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}

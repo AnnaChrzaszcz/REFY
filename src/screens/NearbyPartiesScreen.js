@@ -3,13 +3,11 @@ import {Link} from "react-router-dom";
 import {getNearbyParties} from "../api/refy";
 import '../styles/NearbyParties.css';
 import PartyPreview from "../components/PartyPreview";
-import {FiArrowLeft} from "react-icons/fi";
-import { useHistory } from "react-router-dom";
+import Header from "../components/Header";
 
 const NearbyPartiesScreen = () => {
 
     const [nearbyParties, setNearbyParties] = useState([]);
-    const history = useHistory();
 
     useEffect(() => {
         getNearbyParties().then(parties => {
@@ -17,25 +15,17 @@ const NearbyPartiesScreen = () => {
         })
     }, [])
 
-    const goBack = () => {
-        history.goBack();
-    }
-
-
-    const partiesItems = nearbyParties.map((party) =>
+    const partiesItems = nearbyParties.map((party, index) =>
             <Link key={party._id} style={{ textDecoration: 'none' }} to={{pathname: '/dashboard/nearbyParties/partyDetails', state: party}}>
-                <PartyPreview buttonText={party.name}/>
+                <PartyPreview channels={party.channels} buttonText={party.name} index={index}/>
             </Link>
     );
 
     return (
         <div className='nearbyParties-Screen'>
             <div className='animation-NearbyParties'>
-                <div className='header'>
-                    <FiArrowLeft onClick={goBack}  color='white' size='25%' />
-                    <h1 style={{color: 'white', margin: '0 3%', fontSize: '4vh'}}>Nearby Parties</h1>
-                </div>
-                <div className='nearbyParties' >
+                <Header headerText="Nearby Parties"/>
+                <div className='partiesContainer' >
                     {partiesItems}
                 </div>
             </div>
