@@ -2,10 +2,10 @@ import React from 'react';
 
     const initialPartyState = {
         ownerId: '',
-        name: 'initial name',
-        channels: [{name: 'channel1', number: 0, color: '#9cffb6', playlistURL: '', activeListeners: [], startTime: null},
-            {name: 'channel2', number: 1, color: '#ffb59c', playlistURL: '', activeListeners: [], startTime: null},
-            {name: 'channel3', number: 2, color: '#9cc0ff', playlistURL: '', activeListeners: [], startTime: null}],
+        name: '',
+        channels: [{name: '', number: 0, color: '#44AB9E', playlistURL: '', activeListeners: [], startTime: null},
+            {name: '', number: 1, color: '#FF7575', playlistURL: '', activeListeners: [], startTime: null},
+            {name: '', number: 2, color: '#9DB847', playlistURL: '', activeListeners: [], startTime: null}],
         startTime: null,
         endTime: null,
         coord: null,
@@ -29,12 +29,25 @@ import React from 'react';
                     ownerId: action.payload
                 }
             }
+            case 'party/setCoord': {
+                // We need to return a new state object
+                return {
+                    ...state,
+                    coord: action.payload
+                }
+            }
 
             case 'party/setChannels': {
                 // We need to return a new state object
                 return {
                     ...state,
                     channels: action.payload
+                }
+            }
+            case 'party/resetState': {
+                // We need to return a new state object
+                return {
+                    ...initialPartyState
                 }
             }
             case 'party/addChannel': { //TODO git?
