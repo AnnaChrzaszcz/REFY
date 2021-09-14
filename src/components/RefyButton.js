@@ -3,7 +3,7 @@ import './RefyButton.css';
 
 export const RefyButton = ({text, onSubmit, disabled, id}) => {
     return (
-       <div id={id} className='RefyButton' onClick={onSubmit}>
+       <div id={id} className='RefyButton' onClick={disabled ? null : onSubmit}>
            <text className='RefyButton-text'>{text}</text>
        </div>
     );
