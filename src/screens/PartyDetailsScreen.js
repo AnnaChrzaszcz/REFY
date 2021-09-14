@@ -24,7 +24,13 @@ const PartyDetailsScreen = () => {
     }, [])
 
     const goBack = () => {
-        history.goBack();
+        if(location.state){
+            history.goBack();
+        }
+        else{
+            history.push('/dashboard');
+        }
+
     }
 
     const channelItemComponent = party?.channels?.map((channel) =>
