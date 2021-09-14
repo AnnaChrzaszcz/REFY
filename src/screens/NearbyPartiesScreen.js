@@ -16,7 +16,7 @@ const NearbyPartiesScreen = () => {
     }, [])
 
     const partiesItems = nearbyParties.map((party, index) =>
-            <Link key={party._id} style={{ textDecoration: 'none' }} to={{pathname: '/dashboard/nearbyParties/partyDetails', state: party}}>
+            <Link key={party._id} style={{ textDecoration: 'none' }} to={{pathname: '/dashboard/nearbyParties/partyDetails', state: {newParty: false, party: party}}}>
                 <PartyPreview channels={party.channels} buttonText={party.name} index={index}/>
             </Link>
     );
