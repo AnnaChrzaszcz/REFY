@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Link, useLocation} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import '../styles/PartyDetails.css';
-import store from "../reducers/Store";
 import Channel from "../components/Channel";
 import {FiArrowLeft} from "react-icons/fi";
 import { useHistory } from "react-router-dom";
@@ -13,22 +12,17 @@ const PartyDetailsScreen = () => {
     const history = useHistory();
 
     useEffect(() => {
-        if(location.state){
-            setParty(location.state);
-        }
-        else{
-            if(store.getState().newParty){
-                setParty(store.getState().newParty);
-            }
+        if(location.state.party){
+            setParty(location.state.party);
         }
     }, [])
 
     const goBack = () => {
-        if(location.state){
-            history.goBack();
+        if(location.state.newParty){
+            history.push('/dashboard');
         }
         else{
-            history.push('/dashboard');
+            history.goBack();
         }
 
     }
