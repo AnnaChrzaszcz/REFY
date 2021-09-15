@@ -47,6 +47,4 @@ const DashboardScreen = () => {
     );
 }
 
-//<h1 style={{color: "white"}}>Dashboard</h1>
-
 export default DashboardScreen;
