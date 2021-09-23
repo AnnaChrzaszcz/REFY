@@ -31,7 +31,7 @@ function App() {
         store.dispatch({ type: 'removeListener/setChannelNumber', payload: location.state.number });
     }
     if(previousURL === channelDetailsPath){
-        store.dispatch({ type: 'removeListener/setIdParty', payload: location.state._id });
+        store.dispatch({ type: 'removeListener/setIdParty', payload: location.state.party._id });
         setRemovelistenerFlag(true);
     }
       store.dispatch({ type: 'removeListener/setPreviousURL', payload: location.pathname});

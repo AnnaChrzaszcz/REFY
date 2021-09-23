@@ -35,11 +35,48 @@
     background-size: cover;
     width: 100%;
     height: 100vh;
-    top: 0
+    top: 0;
 }
 
 @keyframes example {
     0%   {right: -100%}
     100% {right: 0}
+}
+
+@keyframes tabAnimation {
+    0%   {opacity: 0.5}
+    100% {opacity: 1}
+}
+
+.selectedTab{
+    color: #ADE8FF;
+    font-size: 2.5vh;
+    font-weight: bold;
+    width: 45%;
+    animation-name: tabAnimation;
+    animation-duration: 1s;
+}
+
+li.selectedTab{
+    border-bottom: 1px solid #ADE8FF;
+}
+
+.disabledClassName{
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 2.5vh;
+    width: 45%;
+}
+
+.disabledClassName ul{
+    border-bottom: 0px solid #aaa;
+}
+
+div.leaflet-popup-content-wrapper{
+   background-color: rgba(0, 119, 133, 0.9);
+    width: 50vw
+}
+
+div.leaflet-popup-content{
+    color: white
 }
 
