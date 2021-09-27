@@ -7,7 +7,7 @@ export default function Header({headerText}) {
     const history = useHistory();
 
     const goBack = () => {
-        if(headerText === 'Create Party'){
+        if(headerText === 'Create Party' || headerText === 'Nearby Parties'){
             history.push('/dashboard');
         }
         else{
