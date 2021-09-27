@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useLayoutEffect} from 'react';
 import SpotifyPlayer from 'react-spotify-web-playback';
 import {getToken} from "../api/spotify";
 import {useHistory, useLocation} from "react-router-dom";
@@ -13,21 +13,40 @@ const ChannelDetailsScreen = () => {
     const history = useHistory();
 
     useEffect(() => {
-        setChannel(location.state);
-        getToken().then(token => {
+        console.log('use effect');
+        //setChannel(location.state);
+        /*getToken().then(token => {
             setToken(token);
             const divElement = elementRef.current;
             divElement.state.position = 123;
             console.log(divElement);
-             /*divElement.updateState(prevState => ({
+             /!*divElement.updateState(prevState => ({
                  ...prevState,
                  position: 123
              }), () => {
                  console.log('elko')
                  console.log(divElement);
-             });*/
-        })
+             });*!/
+        })*/
     },[])
+
+    useLayoutEffect(() => {
+        console.log('use layout effect');
+        setChannel(location.state);
+        getToken().then(token => {
+            setToken(token);
+            const divElement = elementRef.current;
+            //divElement.state.progressMs = 3000;   -- tak nie działa
+            console.log(divElement);
+            divElement.setState(prevState => ({   //-- update state tez nie
+                ...prevState,
+                progressMs: 7000
+            }), () => {
+                console.log('elko')
+                console.log(divElement);
+            });
+        })
+    }, [])
 
     const goBack = () => {
         history.goBack();
