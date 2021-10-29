@@ -28,7 +28,7 @@ function App() {
       setRemovelistenerFlag(false);
       const previousURL = store.getState().removeListener.previousURL;
     if(location.pathname === channelDetailsPath){
-        store.dispatch({ type: 'removeListener/setChannelNumber', payload: location.state.number });
+        store.dispatch({ type: 'removeListener/setChannelNumber', payload: location.state.channel.number });
     }
     if(previousURL === channelDetailsPath){
         store.dispatch({ type: 'removeListener/setIdParty', payload: location.state.party._id });
@@ -40,7 +40,8 @@ function App() {
     useEffect(() => {
         if(removelistenerFlag){
             removeListener(store.getState().removeListener._idParty, store.getState().removeListener.channelNumber).then(party => {
-                console.log(party);
+                //console.log(party);
+                store.dispatch({ type: 'party/setChannels', payload: party.channels});
             });
         }
     }, [removelistenerFlag])

@@ -1,52 +1,32 @@
-import React, {useEffect, useState, useRef, useLayoutEffect} from 'react';
+import React, {useState, useRef, useLayoutEffect, useEffect} from 'react';
 import SpotifyPlayer from 'react-spotify-web-playback';
 import {getToken} from "../api/spotify";
 import {useHistory, useLocation} from "react-router-dom";
 import {FiArrowLeft} from "react-icons/fi";
 import '../styles/ChannelDetails.css';
+import {addSpotifyCredentials} from "../api/refy";
 
 const ChannelDetailsScreen = () => {
     let location = useLocation();
     const [token, setToken] = useState(undefined);
     const [channel, setChannel] = useState({});
+    const [partyId, setPartyId] = useState({});
+    const [requestSent, setRequestSent] = useState(false);
     const elementRef = useRef();
     const history = useHistory();
 
-    useEffect(() => {
-        console.log('use effect');
-        //setChannel(location.state);
-        /*getToken().then(token => {
-            setToken(token);
-            const divElement = elementRef.current;
-            divElement.state.position = 123;
-            console.log(divElement);
-             /!*divElement.updateState(prevState => ({
-                 ...prevState,
-                 position: 123
-             }), () => {
-                 console.log('elko')
-                 console.log(divElement);
-             });*!/
-        })*/
-    },[])
-
     useLayoutEffect(() => {
-        console.log('use layout effect');
-        setChannel(location.state);
+        setChannel(location.state.channel);
+        setPartyId(location.state.partyId);
         getToken().then(token => {
             setToken(token);
-            const divElement = elementRef.current;
-            //divElement.state.progressMs = 3000;   -- tak nie działa
-            console.log(divElement);
-            divElement.setState(prevState => ({   //-- update state tez nie
-                ...prevState,
-                progressMs: 7000
-            }), () => {
-                console.log('elko')
-                console.log(divElement);
-            });
+            //const divElement = elementRef.current;
         })
     }, [])
+
+    useEffect(() => {
+        console.log('wartosc request sent: ', requestSent);
+    }, [requestSent])
 
     const goBack = () => {
         history.goBack();
@@ -75,7 +55,18 @@ const ChannelDetailsScreen = () => {
                        }}
                     uris={[`${channel.playlistURL}`]}
                     callback={(state) => {
-                        console.log(state)
+                            setTimeout(() => {
+                                const divElement = elementRef.current;
+                                const deviceId = divElement.state.deviceId
+
+                                if(!requestSent && deviceId) {
+                                    addSpotifyCredentials(deviceId, token, partyId, channel.number).then(r => {
+                                        console.log(r)
+                                    })
+                                    setRequestSent(true)
+                                }
+                            }, 1000)
+                        setRequestSent(true)
                     }}
                 />
                 }

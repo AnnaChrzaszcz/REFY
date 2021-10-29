@@ -7,25 +7,6 @@ import DashboardButtons from "../components/DashboardButtons";
 
 const DashboardScreen = () => {
 
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-   /*     getToken().then(token => {
-            createUser(token);
-        })*/
-    }, [])
-
-    const createUser = (token) => {
-        getUserInfo(token).then(me => {
-            setUser(me.display_name);
-            createRefyUser(me.display_name).then(createdUser => {
-                storeUser(createdUser).then(() => {
-                    console.log(createdUser);
-                })
-            })
-        })
-    }
-
     return (
         <div className='dashboard-Screen'>
             <div className='animation-dashboard' >

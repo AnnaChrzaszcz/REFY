@@ -21,23 +21,23 @@ const NearbyPartiesScreen = () => {
 
     useEffect(() => {
         getUserPosition();
-        getNearbyParties().then(parties => {
-            setNearbyParties(parties);
-        })
     }, [])
-
 
     const getUserPosition = () => {
         setSpinnerVisible(true);
-        navigator.geolocation.getCurrentPosition(position => {
-            const coord = {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-                accuracy: position.coords.accuracy
-            };
-            setUserPosition(coord);
-            setSpinnerVisible(false);
-        })
+            navigator.geolocation.getCurrentPosition(position => {
+                console.log('pobieram pozycje');
+                const coord = {
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    accuracy: position.coords.accuracy
+                };
+                setUserPosition(coord);
+                setSpinnerVisible(false);
+                getNearbyParties(coord).then(parties => {
+                    setNearbyParties(parties);
+                })
+            })
     }
 
     useLayoutEffect(() => {
@@ -58,7 +58,7 @@ const NearbyPartiesScreen = () => {
     const markerItems = nearbyParties.map((party, index) => {
         if(party.coord){
             return (
-                <CircleMarker color='purple' fillOpacity={0.5} center={[party.coord.latitude, party.coord.longitude]}>
+                <CircleMarker key={party._id} color='purple' fillOpacity={0.5} center={[party.coord.latitude, party.coord.longitude]}>
                     <Popup className='myPopup'>
                         <Link key={party._id} style={{ textDecoration: 'none' }} to={{pathname: '/dashboard/nearbyParties/partyDetails', state: {newParty: false, party: party, fromMap: true}}}>
                         <div style={{display: 'flex', flexDirection: 'column', padding: '0 4%'}}>

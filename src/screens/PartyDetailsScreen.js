@@ -5,6 +5,7 @@ import Channel from "../components/Channel";
 import {FiArrowLeft, FiMapPin, FiX} from "react-icons/fi";
 import { useHistory } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal'
+import {getUser} from "../api/refy";
 import {CircleMarker, MapContainer, TileLayer} from "react-leaflet";
 
 const PartyDetailsScreen = () => {
@@ -14,6 +15,7 @@ const PartyDetailsScreen = () => {
     const history = useHistory();
     const [showModal, setShowModal] = useState(false);
     const [positionColor, setPositionColor] = useState('white');
+    const [user, setUser] = useState(undefined);
 
 
     const handleClose = () => setShowModal(false);
@@ -28,11 +30,11 @@ const PartyDetailsScreen = () => {
     const modalStyles = {
         backgroundColor: 'black',
         position: 'fixed',
-        top: '36%',
-        width: '70%',
-        height: '55%',
-        marginLeft: '15%',
-        marginRight: '15%',
+        top: '10%',
+        width: '80%',
+        height: '80%',
+        marginLeft: '10%',
+        marginRight: '10%',
         borderColor: 'black',
         borderWidth: '0.5',
         borderStyle: 'solid',
@@ -43,6 +45,9 @@ const PartyDetailsScreen = () => {
         if(location.state.party){
             setParty(location.state.party);
         }
+        getUser().then(user => {
+           setUser(user);
+        })
     }, [])
 
     const goBack = () => {
@@ -54,8 +59,12 @@ const PartyDetailsScreen = () => {
                 history.push('/dashboard/nearbyParties', {defaultIndex: 1});
             }
             else{
-                //history.goBack();
-                history.push('/dashboard/nearbyParties', {defaultIndex: 0});
+                if(party.ownerId === user._id){
+                    history.goBack();
+                }
+                else{
+                    history.push('/dashboard/nearbyParties', {defaultIndex: 0});
+                }
             }
 
         }
@@ -68,9 +77,13 @@ const PartyDetailsScreen = () => {
         </div>
     );
 
+    const finishParty = () => {
+        console.log('finish party')
+    }
+
     return (
         <div className='partyDetailsScreen'>
-            <div className='header-partyDetails'>
+            <div style={{opacity: showModal ? '0.4' : '1'}} className='header-partyDetails'>
                 <FiArrowLeft onClick={goBack}  color='white' size='10%' style={{margin: '8% 0'}}/>
                 <br/>
                 <text style={{color: 'white', fontSize: '5vh'}}>{party.name}</text>
@@ -82,12 +95,12 @@ const PartyDetailsScreen = () => {
                 </div>
             </div>
             {showModal &&
-            <FiX onClick={handleShow} color={"black"} size='4vh' style={{position: 'absolute', top: '37%', right: '15%', zIndex: '9'}} />
+            <FiX onClick={handleShow} color={"black"} size='4vh' style={{position: 'absolute', top: '12%', right: '10%', zIndex: '9'}} />
             }
             <Modal centered={true} style={modalStyles} show={showModal} onHide={handleClose}>
                 <Modal.Body>
                     {party.coord &&
-                    <MapContainer style={{height: '55vh', width: '70vw', borderRadius: '15px'}} id='myMap' center={[party.coord.latitude, party.coord.longitude]} zoom={15} scrollWheelZoom={true}>
+                    <MapContainer style={{height: '80vh', width: '80vw', borderRadius: '15px'}} id='myMap' center={[party.coord.latitude, party.coord.longitude]} zoom={15} scrollWheelZoom={true}>
                         <TileLayer
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -102,8 +115,16 @@ const PartyDetailsScreen = () => {
                 {channelItemComponent}
             </div>
             }
+
         </div>
     );
 }
 
 export default PartyDetailsScreen;
+
+
+/*{party?.ownerId === user?._id &&
+<div onClick={finishParty} className='finish-button'>
+    <p style={{color: '#ADE8FF', fontSize: '2.5vh'}}>Finish Party</p>
+</div>
+}*/

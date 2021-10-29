@@ -1,47 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { SpotifyAuth, Scopes } from 'react-spotify-auth'
 import { Redirect } from "react-router-dom";
 import Cookies from 'js-cookie'
 import 'react-spotify-auth/dist/index.css' // if using the included styles
-import {getUserInfo, getPlaylists} from "../api/spotify";
-import {createUser as createRefyUser, storeUser} from "../api/refy";
+import {getUserInfo} from "../api/spotify";
+import {createUser as createRefyUser,} from "../api/refy";
 import '../components/RefyButton.css';
-import login from "../assets/animations/loginScreen.gif";
-import useWindowDimensions from "../functions/useWindowDimensions";
-
 const LoginScreen = () => {
-    const token = Cookies.get('spotifyAuthToken');
-    const [playlists, setPlaylists] = useState([]);
-    const [user, setUser] = useState(null);
-    const [selectedPlaylist, setSelectedPlaylist] = useState('spotify:playlist:12vwfmvhakMSJ7biuCwc0w');
-    const { height, width } = useWindowDimensions();
-
-
-    const selectPlaylist = (playlist) => {
-        console.log('selected playlist: ' + playlist.name)
-        console.log(playlist.uri);
-        setSelectedPlaylist(playlist.uri);
-    }
-
-    const playlistItems = playlists.map((playlist) =>
-        <li key={playlist.id}>
-            <button onClick={() => selectPlaylist(playlist)}>{playlist.name}</button>
-        </li>
-    );
 
     const createUser = (token) => {
         getUserInfo(token).then(me => {
-            setUser(me.display_name);
             createRefyUser(me.display_name).then(createdUser => {
-                storeUser(createdUser).then(() => {
-                })
+               console.log(createdUser);
             })
-        })
-    }
-
-    const showPlaylists = () => {
-        getPlaylists(token).then(userPlaylists => {
-            setPlaylists(userPlaylists.items);
         })
     }
 
