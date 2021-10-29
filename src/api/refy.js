@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {ipAddress} from "../secretApiUrl";
+import {getToken} from "./spotify";
 
 export const instance =  axios.create({
     baseURL: `${ipAddress}`
@@ -24,6 +25,7 @@ instance.interceptors.request.use(
 export const createUser = async (spotifyId) => {
     try{
         const response = await instance.post('/user', {spotifyId});
+        await storeUser(response.data);
         return response.data;
     }
     catch(err) {
@@ -42,10 +44,21 @@ export const createChannel = async (channel) => {
     }
 };
 
+export const addSpotifyCredentials = async (deviceId, spotifyToken, idParty, channelNumber) => {
+    try {
+        const response = await instance.post('/party/addSpotifyCredentials', {deviceId, spotifyToken, idParty, channelNumber});
+        return response.data;
+    }
+    catch(err) {
+        console.log(err);
+    }
+};
+
 export const createParty = async (newParty) => {
     try{
+        const token = await getToken();
         console.log(newParty);
-        const response = await instance.post('/party', newParty);
+        const response = await instance.post('/party', newParty, {params: {token: token}});
         return response.data;
     }
     catch(err) {
@@ -60,6 +73,7 @@ export const addNewListener = async (_idParty, channelNumber) => {
         let spotifyId = user.spotifyId;
         console.log('add new listener',spotifyId, _idParty, channelNumber);
         const response = await instance.post('party/channel/addNewListener', {_idParty, spotifyId, channelNumber});
+        console.log(response.data);
         return response.data;
     }
     catch(err) {
@@ -80,9 +94,14 @@ export const removeListener = async (_idParty, channelNumber) => {
     }
 };
 
-export const getNearbyParties = async () => {
+export const getNearbyParties = async (coord) => {
     try{
-        const response = await instance.get('/party/findAll');
+        const response = await instance.get('/party/nearbyParties', {
+            params: {
+                latitude: coord.latitude,
+                longitude: coord.longitude
+            }
+        });
         return response.data;
     }
     catch(err) {
