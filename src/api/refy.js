@@ -125,6 +125,41 @@ export const getUserParties = async () => {
     }
 };
 
+
+export const pausePlayer = async (deviceId) => {
+    try{
+        const token = await getToken();
+
+        const response = await axios.put('https://api.spotify.com/v1/me/player/pause', {}, {
+            params: {device_id: deviceId},
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        return response.data;
+    }
+    catch(err) {
+        console.log(err);
+    }
+};
+
+
+export const finishParty = async (idParty) => {
+    try{
+        const response = await instance.get('/party/finish',
+            {
+                params: {
+                    id: idParty
+                }
+            });
+        return response.data;
+    }
+    catch(err) {
+        console.log(err);
+    }
+};
+
 export const storeUser = async (user) => {
     try{
         localStorage.setItem('user', JSON.stringify(user));
@@ -138,6 +173,24 @@ export const storeUser = async (user) => {
 export const getUser = async () => {
     try{
         return JSON.parse(localStorage.getItem('user'));
+    }
+    catch(err) {
+        console.log(err);
+    }
+};
+
+export const setDeviceId = async (deviceId) => {
+    try{
+        localStorage.setItem('device_Id', deviceId);
+    }
+    catch(err) {
+        console.log(err);
+    }
+};
+
+export const getDeviceId = async () => {
+    try{
+        return localStorage.getItem('device_Id');
     }
     catch(err) {
         console.log(err);

@@ -10,6 +10,7 @@ import 'leaflet/dist/leaflet.css';
 import {CircleMarker, MapContainer, Popup, TileLayer} from 'react-leaflet'
 import LocationMarker from "../components/LocationMarker";
 import Loader from "react-loader-spinner";
+import {getLocation} from "../functions/location";
 
 const NearbyPartiesScreen = () => {
 
@@ -25,7 +26,14 @@ const NearbyPartiesScreen = () => {
 
     const getUserPosition = () => {
         setSpinnerVisible(true);
-            navigator.geolocation.getCurrentPosition(position => {
+        getLocation().then(location => {
+            setUserPosition(location);
+            setSpinnerVisible(false);
+            getNearbyParties(location).then(parties => {
+                setNearbyParties(parties);
+            })
+        })
+            /*navigator.geolocation.getCurrentPosition(position => {
                 console.log('pobieram pozycje');
                 const coord = {
                     latitude: position.coords.latitude,
@@ -37,7 +45,7 @@ const NearbyPartiesScreen = () => {
                 getNearbyParties(coord).then(parties => {
                     setNearbyParties(parties);
                 })
-            })
+            })*/
     }
 
     useLayoutEffect(() => {

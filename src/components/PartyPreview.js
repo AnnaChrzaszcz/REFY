@@ -30,7 +30,8 @@ export default function PartyPreview({buttonText, index, channels, myParty, endT
         animationDuration: '2s',
     animationDelay: getDelay(),
     position: 'relative',
-        animationFillMode: 'backwards'
+        animationFillMode: 'backwards',
+        opacity: endTime ? '0.7' : '1'
     };
 
     return (

@@ -1,11 +1,11 @@
 import './App.css';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Switch,
   Route,
     useLocation
 } from "react-router-dom";
-import {removeListener} from "./api/refy";
+import {getDeviceId, pausePlayer, removeListener, setDeviceId} from "./api/refy";
 import store from "./reducers/Store";
 
 import WelcomeScreen from "./screens/WelcomeScreen";
@@ -17,12 +17,16 @@ import ChannelDetailsScreen from "./screens/ChannelDetailsScreen";
 import CreatePartyScreen from "./screens/CreatePartyScreen";
 import CreateChannelScreen from "./screens/CreateChannelScreen";
 import MyPartiesScreen from "./screens/MyPartiesScreen";
+import SpotifyPlayer from "react-spotify-web-playback";
+import {getToken} from "./api/spotify";
 
 function App() {
 
   const location = useLocation();
   const [removelistenerFlag, setRemovelistenerFlag] = useState(false);
   const channelDetailsPath = '/dashboard/nearbyParties/partyDetails/channelDetails';
+    const [token, setToken] = useState(undefined);
+    const elementRef = useRef();
 
   useEffect(() => {
       setRemovelistenerFlag(false);
@@ -39,16 +43,27 @@ function App() {
 
     useEffect(() => {
         if(removelistenerFlag){
+            getDeviceId().then(deviceId => {
+                pausePlayer(deviceId).then((res) => {
+                    console.log(res);
+                })
+            })
             removeListener(store.getState().removeListener._idParty, store.getState().removeListener.channelNumber).then(party => {
-                //console.log(party);
                 store.dispatch({ type: 'party/setChannels', payload: party.channels});
             });
         }
     }, [removelistenerFlag])
 
+    useEffect(() => {
+        getToken().then(token => {
+            setToken(token);
+        })
+    }, [])
+
 
   return (
-      <Switch>
+      <>
+          <Switch>
         <Route exact path="/">
           <WelcomeScreen />
         </Route>
@@ -80,6 +95,27 @@ function App() {
           <MyPartiesScreen />
         </Route>
       </Switch>
+          <div style={{visibility: 'hidden'}}>
+              {token &&
+              <SpotifyPlayer
+                  ref={elementRef}
+                  token={token}
+                  autoPlay={true}
+                  styles={{
+                      display: 'none',
+                      height: '0px',
+                  }}
+
+                  callback={(state) => {
+                      const divElement = elementRef.current;
+                      const deviceId = divElement.state.deviceId
+                      setDeviceId(deviceId).then(r => {})
+                  }
+                  }
+              />
+              }
+          </div>
+          </>
   );
 }
 

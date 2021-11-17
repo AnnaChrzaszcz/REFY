@@ -24,20 +24,9 @@ export const getPlaylists = (token) => {
     }
 };
 
-
-export const storeToken = async (token) => {
-    try{
-        localStorage.setItem('spotify-token', JSON.stringify(token));
-    }
-    catch(err) {
-        console.log(err);
-    }
-};
-
 export const getToken = async () => {
     try{
         return Cookies.get('spotifyAuthToken')
-        //return JSON.parse(localStorage.getItem('spotify-token'));
     }
     catch(err) {
         console.log(err);

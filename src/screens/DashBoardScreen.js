@@ -1,11 +1,31 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Link} from "react-router-dom";
 import {getToken, getUserInfo} from "../api/spotify";
-import {createUser as createRefyUser, storeUser} from "../api/refy";
 import '../styles/Dashboard.css';
 import DashboardButtons from "../components/DashboardButtons";
+import {storeLocation} from "../functions/location";
 
 const DashboardScreen = () => {
+
+    setInterval(() => {
+        getUserPosition()
+    }, 60000);
+
+    useEffect(() => {
+        getUserPosition();
+    }, [])
+
+    const getUserPosition = () => {
+        navigator.geolocation.getCurrentPosition(async position => {
+            console.log('pobieram pozycje');
+            const coord = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                accuracy: position.coords.accuracy
+            };
+            await storeLocation(coord);
+        })
+    }
 
     return (
         <div className='dashboard-Screen'>
@@ -24,6 +44,7 @@ const DashboardScreen = () => {
                     <DashboardButtons buttonText='My Parties' iconName='heart'/>
                 </Link>
             </div>
+
         </div>
     );
 }

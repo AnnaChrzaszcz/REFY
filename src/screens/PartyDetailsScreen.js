@@ -5,8 +5,9 @@ import Channel from "../components/Channel";
 import {FiArrowLeft, FiMapPin, FiX} from "react-icons/fi";
 import { useHistory } from "react-router-dom";
 import Modal from 'react-bootstrap/Modal'
-import {getUser} from "../api/refy";
+import {getUser, finishParty} from "../api/refy";
 import {CircleMarker, MapContainer, TileLayer} from "react-leaflet";
+
 
 const PartyDetailsScreen = () => {
 
@@ -42,6 +43,7 @@ const PartyDetailsScreen = () => {
     }
 
     useEffect(() => {
+        console.log(location);
         if(location.state.party){
             setParty(location.state.party);
         }
@@ -77,8 +79,11 @@ const PartyDetailsScreen = () => {
         </div>
     );
 
-    const finishParty = () => {
-        console.log('finish party')
+    const finishParty1 = () => {
+        finishParty(party._id).then(res => {
+            console.log('finished the party');
+            history.goBack();
+        })
     }
 
     return (
@@ -115,7 +120,11 @@ const PartyDetailsScreen = () => {
                 {channelItemComponent}
             </div>
             }
-
+            {party?.ownerId === user?._id && !location.state.newParty && location.state.fromMap === undefined && party.endTime === null &&
+            <div onClick={finishParty1} style={{opacity: showModal ? '0' : '1'}} className='finish-button'>
+                <p style={{color: '#ADE8FF', fontSize: '2.5vh'}}>Finish Party</p>
+            </div>
+            }
         </div>
     );
 }
@@ -123,8 +132,4 @@ const PartyDetailsScreen = () => {
 export default PartyDetailsScreen;
 
 
-/*{party?.ownerId === user?._id &&
-<div onClick={finishParty} className='finish-button'>
-    <p style={{color: '#ADE8FF', fontSize: '2.5vh'}}>Finish Party</p>
-</div>
-}*/
+/**/
